@@ -78,3 +78,151 @@ print(f"Mean Squared Error (MSE): {mse:.2f}")
 print(f"Root Mean Squared Error (RMSE): {rmse:.2f}")
 print(f"Mean Absolute Percentage Error (MAPE): {mape:.4f}")
 print(f"R² Score: {r2:.4f}")
+
+# SECTION A3: Plot 20 Random Labeled Points in 2D
+
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+X_vals = np.random.uniform(1, 10, 20)
+Y_vals = np.random.uniform(1, 10, 20)
+labels = np.random.choice([0, 1], size=20)
+df_plot = pd.DataFrame({'X': X_vals, 'Y': Y_vals, 'Label': labels})
+
+plt.figure(figsize=(8, 6))
+for label, color in zip([0, 1], ['blue', 'red']):
+    subset = df_plot[df_plot['Label'] == label]
+    plt.scatter(subset['X'], subset['Y'], c=color, label=f'Class {label}', s=60)
+plt.title('A3: 20 Training Points with 2 Classes')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# SECTION A4: kNN Classification (k=3) of 2D Grid
+
+from sklearn.neighbors import KNeighborsClassifier
+
+np.random.seed(42)
+X_train_vals = np.random.uniform(1, 10, 20)
+Y_train_vals = np.random.uniform(1, 10, 20)
+train_labels = np.random.choice([0, 1], size=20)
+train_df = pd.DataFrame({'X': X_train_vals, 'Y': Y_train_vals, 'Label': train_labels})
+
+x_range = np.arange(0, 10.1, 0.1)
+y_range = np.arange(0, 10.1, 0.1)
+xx, yy = np.meshgrid(x_range, y_range)
+X_test_points = np.c_[xx.ravel(), yy.ravel()]
+
+knn = KNeighborsClassifier(n_neighbors=3)
+X_train = train_df[['X', 'Y']].values
+y_train = train_df['Label'].values
+knn.fit(X_train, y_train)
+y_pred = knn.predict(X_test_points)
+
+plt.figure(figsize=(8, 6))
+plt.scatter(X_test_points[:, 0], X_test_points[:, 1],
+            c=['blue' if label == 0 else 'red' for label in y_pred],
+            alpha=0.3, s=10, marker='s', label='Predicted Region')
+for label, color in zip([0, 1], ['blue', 'red']):
+    subset = train_df[train_df['Label'] == label]
+    plt.scatter(subset['X'], subset['Y'], c=color, edgecolors='black',
+                label=f'Train Class {label}', s=80)
+plt.title("A4: kNN Classification (k=3) of Test Grid")
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# SECTION A5: kNN Classification with Varying k on 2D Grid
+
+np.random.seed(42)
+X_train_vals = np.random.uniform(1, 10, 20)
+Y_train_vals = np.random.uniform(1, 10, 20)
+train_labels = np.random.choice([0, 1], size=20)
+train_df = pd.DataFrame({'X': X_train_vals, 'Y': Y_train_vals, 'Label': train_labels})
+
+x_range = np.arange(0, 10.1, 0.1)
+y_range = np.arange(0, 10.1, 0.1)
+xx, yy = np.meshgrid(x_range, y_range)
+X_test_points = np.c_[xx.ravel(), yy.ravel()]
+
+k_values = [1, 2, 3, 4, 5, 7, 11]
+for k in k_values:
+    knn = KNeighborsClassifier(n_neighbors=k)
+    X_train = train_df[['X', 'Y']].values
+    y_train = train_df['Label'].values
+    knn.fit(X_train, y_train)
+    y_pred = knn.predict(X_test_points)
+    plt.figure(figsize=(8, 6))
+    plt.scatter(X_test_points[:, 0], X_test_points[:, 1],
+                c=['blue' if label == 0 else 'red' for label in y_pred],
+                alpha=0.3, s=10, marker='s')
+    for label, color in zip([0, 1], ['blue', 'red']):
+        subset = train_df[train_df['Label'] == label]
+        plt.scatter(subset['X'], subset['Y'], c=color, edgecolors='black',
+                    label=f'Train Class {label}', s=80)
+    plt.title(f"A5: Decision Boundary with k = {k}")
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+# SECTION A6: kNN Decision Boundaries on Real Dataset Subset
+
+
+import matplotlib.gridspec as gridspec
+
+data = pd.read_csv("dataset.csv")
+features = ['radius_mean', 'texture_mean']
+X = data[features].values
+y = (data['diagnosis'] == 'M').astype(int).values
+X_train, _, y_train, _ = train_test_split(X, y, test_size=0.25, random_state=3, stratify=y)
+
+np.random.seed(7)
+subset_idx = np.random.choice(X_train.shape[0], min(40, X_train.shape[0]), replace=False)
+X_sub, y_sub = X_train[subset_idx], y_train[subset_idx]
+x_min, x_max = X_sub[:, 0].min() - 1, X_sub[:, 0].max() + 1
+y_min, y_max = X_sub[:, 1].min() - 1, X_sub[:, 1].max() + 1
+xx, yy = np.meshgrid(np.linspace(x_min, x_max, 100), np.linspace(y_min, y_max, 100))
+grid_points = np.c_[xx.ravel(), yy.ravel()]
+
+ks = [1, 3, 5, 7, 9]
+plt.figure(figsize=(4*len(ks), 4))
+gs = gridspec.GridSpec(1, len(ks))
+for i, k in enumerate(ks):
+    knn = KNeighborsClassifier(n_neighbors=k)
+    knn.fit(X_sub, y_sub)
+    Z = knn.predict(grid_points).reshape(xx.shape)
+    ax = plt.subplot(gs[i])
+    ax.contourf(xx, yy, Z, alpha=0.3, cmap='bwr')
+    ax.scatter(X_sub[:, 0], X_sub[:, 1], c=y_sub, cmap='bwr', edgecolor='k', s=70)
+    ax.set_title(f"kNN Boundary k={k}")
+    ax.set_xlabel(features[0])
+    if i == 0:
+        ax.set_ylabel(features[1])
+    ax.grid(True)
+plt.suptitle("kNN Boundaries on Real Dataset Subset")
+plt.tight_layout(rect=[0,0,1,0.95])
+plt.show()
+
+
+# A7: kNN Classification with Cross-Validation for Optimal k
+from sklearn.model_selection import GridSearchCV
+
+data = pd.read_csv("dataset.csv")
+features = ['radius_mean', 'texture_mean']
+X = data[features].values
+y = (data['diagnosis'] == 'M').astype(int).values
+X_train, _, y_train, _ = train_test_split(
+    X, y, test_size=0.25, random_state=3, stratify=y
+)
+param_grid = {'n_neighbors': np.arange(1, 21)}
+knn = KNeighborsClassifier()
+grid = GridSearchCV(knn, param_grid, cv=5)
+grid.fit(X_train, y_train)
+print(f"Optimal k: {grid.best_params_['n_neighbors']} with cross-validation score: {grid.best_score_:.3f}")
+
