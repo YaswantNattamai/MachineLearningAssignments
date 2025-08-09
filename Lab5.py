@@ -53,3 +53,60 @@ def task_A5_clustering_metrics(kmeans, X):
     ch = calinski_harabasz_score(X, kmeans.labels_)
     db = davies_bouldin_score(X, kmeans.labels_)
     return {"Silhouette": sil, "Calinski-Harabasz": ch, "Davies-Bouldin": db}
+
+
+def task_A6_kmeans_diff_k(k_values=range(2, 8)):
+    clustering_features = df.drop(columns=["id", "clarity_score", "clarity_label"])
+    results = {}
+    for k in k_values:
+        kmeans = KMeans(n_clusters=k, random_state=42, n_init="auto").fit(clustering_features)
+        sil = silhouette_score(clustering_features, kmeans.labels_)
+        ch = calinski_harabasz_score(clustering_features, kmeans.labels_)
+        db = davies_bouldin_score(clustering_features, kmeans.labels_)
+        results[k] = {"Silhouette": sil, "Calinski-Harabasz": ch, "Davies-Bouldin": db}
+    return results
+
+def task_A7_elbow_plot(max_k=10):
+    clustering_features = df.drop(columns=["id", "clarity_score", "clarity_label"])
+    distortions = []
+    k_values = range(2, max_k+1)
+    for k in k_values:
+        kmeans = KMeans(n_clusters=k, random_state=42, n_init="auto").fit(clustering_features)
+        distortions.append(kmeans.inertia_)
+    plt.figure(figsize=(8, 5))
+    plt.plot(k_values, distortions, marker='o')
+    plt.xlabel("Number of clusters (k)")
+    plt.ylabel("Inertia (Distortion)")
+    plt.title("Elbow Method for Optimal k")
+    plt.grid(True)
+    plt.show()
+
+if __name__ == "__main__":
+    model_single, X_train_s, X_test_s, y_train_s, y_test_s = task_A1_single_feature()
+    metrics_single = task_A2_evaluate_single(model_single, X_train_s, X_test_s, y_train_s, y_test_s)
+    print("A2 Metrics (Single Feature):")
+    for set_type, scores in metrics_single.items():
+        print(f"  {set_type.capitalize()} Set:")
+        for metric, value in scores.items():
+            print(f"    {metric}: {value:.4f}")
+    model_all, X_train_a, X_test_a, y_train_a, y_test_a = task_A3_all_features()
+    metrics_all = task_A2_evaluate_single(model_all, X_train_a, X_test_a, y_train_a, y_test_a)
+    print("\nA3 Metrics (All Features):")
+    for set_type, scores in metrics_all.items():
+        print(f"  {set_type.capitalize()} Set:")
+        for metric, value in scores.items():
+            print(f"    {metric}: {value:.4f}")
+    kmeans2, X_cluster = task_A4_kmeans_k2()
+    cluster_metrics = task_A5_clustering_metrics(kmeans2, X_cluster)
+    print("\nA5 Clustering Metrics:")
+    for metric, value in cluster_metrics.items():
+        print(f"  {metric}: {value:.4f}")
+    k_results = task_A6_kmeans_diff_k(range(2, 6))
+    print("\nA6 Metrics for Different k:")
+    for k, scores in k_results.items():
+        print(f"  k={k}:")
+        for metric, value in scores.items():
+            print(f"    {metric}: {value:.4f}")
+    print("\nA7 Elbow Plot:")
+    task_A7_elbow_plot(max_k=10)
+    print("Elbow plot generated. Check the plot for optimal k.")
