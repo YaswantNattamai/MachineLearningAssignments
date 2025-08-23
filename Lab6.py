@@ -310,6 +310,7 @@ print("Pretty Print Decision Tree:")
 print_tree(tree)
 print("\n")
 
+"""
 # ========== Question 6 ==========
 print("Q6: Sklearn Decision Tree visualization")
 plot_sklearn_decision_tree(df)  # Shows matplotlib plot
@@ -317,4 +318,4 @@ plot_sklearn_decision_tree(df)  # Shows matplotlib plot
 # ========== Question 7 ==========
 print("Q7: Plot Decision Boundary for two selected features")
 plot_decision_boundary(df)  # Shows matplotlib plot of decision boundary
-
+"""
