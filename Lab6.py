@@ -7,7 +7,17 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn import tree
 from sklearn.tree import DecisionTreeClassifier, plot_tree
 
-# ================================ Question 1 & 2 ================================
+# ================================ Question 1 & 2 ================================  
+
+'''
+A1. Write a function to calculate the entropy associated with your dataset. (If your dataset contains 
+only continuous numeric data for outcome (a regression problem), employ equal width binning and 
+divide your data into 4 bins. Each bin may be considered as a categorical data value. Write a function 
+for equal width binning). 
+
+A2. Calculate the Gini index value for your dataset. 
+
+'''
 def equal_width_binning(data, n_bins=4):
     """
     Perform equal-width binning on continuous numeric data.
@@ -41,6 +51,12 @@ def calculate_gini(data):
     return gini
 
 # ================================ Question 3 ================================
+'''
+3. Write your own module for detecting the feature / attribute for the root note of a Decision Tree.
+Use Information gain as the impurity measure for identifying the root node. Assume that the
+features are categorical or could be converted to categorical by binning.
+'''
+
 def equal_width_binning_q3(data, n_bins=4):
     """
     Converts continuous numeric data into categorical bins.
@@ -85,6 +101,14 @@ def find_root_node(df, target, n_bins=4):
     return root_feature, ig_scores
 
 # ================================ Question 4 ================================
+'''
+A4. If the feature is continuous valued for A3, use equal width or frequency binning for converting 
+the attribute to categorical valued. The binning type should be a parameter to the function built for 
+binning. Write your own function for the binning task. The number of bins to be created should also 
+be passed as a parameter to the function. Use function overloading to allow for usage of default 
+parameters if no parameters are passed. 
+'''
+
 def binning(data, n_bins=4, method="equal_width"):
     """
     Converts continuous numeric data into categorical bins (flexible).
@@ -106,6 +130,11 @@ def binning(data, n_bins=4, method="equal_width"):
     return binned_labels, bin_edges
 
 # ================================ Question 5 ================================
+'''
+A5. Expand the above functions to built your own Decision Tree module. 
+
+'''
+
 def calculate_entropy_q5(data):
     """
     Calculate entropy with lower numerical stability (question5.py).
@@ -195,6 +224,11 @@ def print_tree(tree, depth=0):
             print_tree(subtree, depth + 1)
 
 # ================================ Question 6 ================================
+'''
+6. Draw and visualize the decision tree constructed based on your data. (Refer above provided web 
+sources [1] & [2] for understanding and learning on how to visualize a DT).
+
+'''
 def plot_sklearn_decision_tree(df):
     """
     Train and plot sklearn decision tree classifier (cleaner visualization).
@@ -233,6 +267,11 @@ def plot_sklearn_decision_tree(df):
     plt.show()
 
 # ================================ Question 7 ================================
+'''
+7. Use 2 features from your dataset for a classification problem. Visualize the decision boundary 
+created by your DT in the vector space. (Refer above provided web source [3] & [2] for 
+understanding and learning on how to draw decision boundary for a DT). 
+'''
 def plot_decision_boundary(df):
     """
     Plot decision tree decision boundary using two chosen features (question7.py).

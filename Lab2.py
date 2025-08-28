@@ -10,7 +10,7 @@ from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 import statistics
 
 
-def load_purchase_data(file_path="Lab-Session-Data.xlsx"):
+def load_purchase_data(file_path="LabSessionData.xlsx"):
     """Load the 'Purchase data' worksheet and return feature and label matrices."""
     df = pd.read_excel(file_path, sheet_name='Purchase data')
     X = df.iloc[:, 1:4].values  # Quantities of Candies, Mangoes, Milk Packets
@@ -134,7 +134,7 @@ def plot_chg_vs_day(df):
 
 # --------- A4: Thyroid Data Exploration ---------
 
-def load_thyroid_data(file_path="Lab-Session-Data.xlsx"):
+def load_thyroid_data(file_path="LabSessionData.xlsx"):
     return pd.read_excel(file_path, sheet_name='thyroid0387_UCI', na_values=['?'])
 
 def summarize_attributes(df):
@@ -426,12 +426,12 @@ if __name__ == "__main__":
 
     # --- A7: Analyze Similarity Metrics (can take time and display multiple plots)
     print("\nA7: Analyzing and plotting similarity metrics for first 20 thyroid records ...")
-    analyze_similarity_metrics("Lab-Session-Data.xlsx", "thyroid0387_UCI")
+    analyze_similarity_metrics("LabSessionData.xlsx", "thyroid0387_UCI")
 
     # --- A8: Imputation Demonstration
     print("\nA8: Imputation demonstration (thyroid data):")
-    impute_missing_values("Lab-Session-Data.xlsx", "thyroid0387_UCI")
+    impute_missing_values("LabSessionData.xlsx", "thyroid0387_UCI")
 
     # --- A9: Min-Max Normalization Demonstration
     print("\nA9: Min-Max normalization demonstration (thyroid data):")
-    impute_and_normalize("Lab-Session-Data.xlsx", "thyroid0387_UCI")
+    impute_and_normalize("LabSessionData.xlsx", "thyroid0387_UCI")

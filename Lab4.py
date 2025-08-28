@@ -6,6 +6,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 
+
+'''
+A1. Confusion matrix for your classification problem. 
+From confusion matrix, the other performance metrics such as precision, recall and F1-Score measures for both training and test 
+data. infer the models learning outcome (underfit / regularfit / overfit). 
+'''
 df = pd.read_csv("dataset.csv")
 df = df.drop(columns=["id", "Unnamed: 32"], errors="ignore")
 y = df["diagnosis"]
@@ -36,7 +42,9 @@ else:
     fit_type = "Good Fit (Regular Fit)"
 print(f"\nModel Fit Analysis: {fit_type}")
 
-
+'''
+A2. Calculate MSE, RMSE, MAPE and R2 scores for the price prediction exercise done in Lab 02. Analyse the results. 
+'''
 # SECTION A2: Linear Regression on Purchase Data
 
 from sklearn.linear_model import LinearRegression
@@ -79,6 +87,14 @@ print(f"Root Mean Squared Error (RMSE): {rmse:.2f}")
 print(f"Mean Absolute Percentage Error (MAPE): {mape:.4f}")
 print(f"R² Score: {r2:.4f}")
 
+
+'''
+A3. Generate 20 data points (training set data) consisting of 2 features (X & Y) whose values vary 
+randomly between 1 & 10. Based on the values, assign these 20 points to 2 different classes (class0 - 
+Blue & class1 - Red). Make a scatter plot of the training data and color the points as per their class 
+color. Observe the plot. 
+
+'''
 # SECTION A3: Plot 20 Random Labeled Points in 2D
 
 import matplotlib.pyplot as plt
@@ -100,6 +116,15 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
+
+'''
+A4. Generate test set data with values of X & Y varying between 0 and 10 with increments of 0.1. 
+This creates a test set of about 10,000 points. Classify these points with above training data using 
+kNN classifier (k = 3). Make a scatter plot of the test data output with test points colored as per their 
+predicted class colors (all points predicted class0 are labeled blue color). Observe the color spread 
+and class boundary lines in the feature space.
+
+'''
 # SECTION A4: kNN Classification (k=3) of 2D Grid
 
 from sklearn.neighbors import KNeighborsClassifier
@@ -136,7 +161,14 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
+'''
+A5. Repeat A4 exercise for various values of k and observe the change in the class boundary lines. 
+
+'''
+
 # SECTION A5: kNN Classification with Varying k on 2D Grid
+
+
 
 np.random.seed(42)
 X_train_vals = np.random.uniform(1, 10, 20)
@@ -170,6 +202,12 @@ for k in k_values:
     plt.legend()
     plt.grid(True)
     plt.show()
+
+'''
+A6. Repeat the exercises A3 to A5 for your project data considering any two features and classes. 
+
+'''
+
 
 # SECTION A6: kNN Decision Boundaries on Real Dataset Subset
 
@@ -209,6 +247,10 @@ plt.suptitle("kNN Boundaries on Real Dataset Subset")
 plt.tight_layout(rect=[0,0,1,0.95])
 plt.show()
 
+'''
+A7. Use RandomSearchCV() or GridSearchCV() operations to find the ideal ‘k’ value for your 
+kNN classifier. This is called hyper-parameter tuning. 
+'''
 
 # A7: kNN Classification with Cross-Validation for Optimal k
 from sklearn.model_selection import GridSearchCV

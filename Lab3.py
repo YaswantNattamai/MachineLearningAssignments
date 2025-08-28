@@ -1,10 +1,19 @@
-# A1: Euclidean Distance between Centroids
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report, confusion_matrix
+
+'''
+# A1: Euclidean Distance between Centroids
+     Calculate the mean for each class
+     Calculate the spread (standard deviation) for each class
+     Calculate the distance between mean vectors between classes
+
+'''
+
+
 
 df = pd.read_csv("KNNAlgorithmDataset.csv")
 df = df.drop(columns=["id", "Unnamed: 32"], errors="ignore")
@@ -15,16 +24,26 @@ labels = df["diagnosis"].values
 features_M = features[labels == "M"]
 features_B = features[labels == "B"]
 
+#Calculate the mean for each class
 centroid_M = np.mean(features_M, axis=0)
 centroid_B = np.mean(features_B, axis=0)
 
+# Calculate the spread (standard deviation) for each class
 spread_M = np.std(features_M, axis=0)
 spread_B = np.std(features_B, axis=0)
 
+#Calculate the distance between mean vectors between classes 
 interclass_distance = np.linalg.norm(centroid_M - centroid_B)
 print(f"Euclidean distance between centroids: {interclass_distance:.2f}")
 
+'''
 # A2: Histogram + Mean + Variance of First Feature
+
+'''
+
+
+# Observe the density pattern for that feature by plotting the
+# histogram. Use buckets (data in ranges) for histogram generation and study.
 df = pd.read_csv("KNNAlgorithmDataset.csv")
 feature_cols = df.columns[2:]
 feature_cols = [col for col in feature_cols if not df[col].isnull().all()]
@@ -49,7 +68,10 @@ print("Mean:", mean)
 print("Variance:", variance)
 
 
-# A3: Minkowski Distance Plot
+'''
+A3: Minkowski Distance Plot
+'''
+
 df = pd.read_csv("KNNAlgorithmDataset.csv")
 df = df.drop(columns=["id", "Unnamed: 32", "diagnosis"], errors="ignore")
 
@@ -67,7 +89,10 @@ plt.xticks(r_values)
 plt.savefig("LAB3question3plot.jpg")
 plt.show()
 
-# A4–A7: Training and Test KNN with k = 3
+'''
+A4–A7: Training and Test KNN with k = 3
+'''
+
 df = pd.read_csv("KNNAlgorithmDataset.csv")
 df = df.drop(columns=["id", "Unnamed: 32"], errors="ignore")
 
@@ -86,7 +111,9 @@ print("Accuracy (k=3):", accuracy)
 predictions = neigh.predict(X_test)
 print("Predictions:", predictions)
 
-# A8: Vary k from 1 to 11 and plot accuracy
+'''
+A8: Vary k from 1 to 11 and plot accuracy for each of the values of k
+'''
 k_values = range(1, 12)
 accuracies = []
 
@@ -110,7 +137,7 @@ plt.show()
 # A9: Confusion Matrix & Classification Report for Test and Train Data
 print("\n--- A9: Classification Evaluation ---")
 
-# Test Data Evaluation
+# Classification Report
 print("\nTest Data Evaluation:")
 y_test_pred = neigh.predict(X_test)
 print("Confusion Matrix (Test):")
