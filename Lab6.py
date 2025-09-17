@@ -131,7 +131,7 @@ def binning(data, n_bins=4, method="equal_width"):
 
 # ================================ Question 5 ================================
 '''
-A5. Expand the above functions to built your own Decision Tree module. 
+A5. Expand the above functions to build your own Decision Tree module. 
 
 '''
 

@@ -29,7 +29,7 @@ def task_A1_single_feature():
 '''
 
 A2. Calculate MSE, RMSE, MAPE and R2 scores for prediction made by the trained model in A1.  
-Perform prediction on the test data and compare the metric values between train and test set
+Perform prediction on the test data and compare the metric values between train and test set.
 
 '''
 

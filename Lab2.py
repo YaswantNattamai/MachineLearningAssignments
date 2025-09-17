@@ -1,4 +1,3 @@
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,7 +7,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 import statistics
-
 
 def load_purchase_data(file_path="LabSessionData.xlsx"):
     """Load the 'Purchase data' worksheet and return feature and label matrices."""
@@ -89,7 +87,7 @@ def train_classifier(A, labels):
 
 # --------- A3: IRCTC Stock Data Analysis ---------
 
-def load_irctc_stock_data(file_path="Lab-Session-Data.xlsx"):
+def load_irctc_stock_data(file_path="LabSessionData.xlsx"):
     """Load 'IRCTC Stock Price' worksheet as DataFrame."""
     return pd.read_excel(file_path, sheet_name='IRCTC Stock Price')
 
@@ -342,7 +340,7 @@ def impute_and_normalize(file_path, sheet_name, na_values=["?"], return_df=False
     return df_normalized if return_df else None
 
 # ==============================================
-#                  MAIN OUTPUTS
+#                   MAIN OUTPUTS
 # ==============================================
 if __name__ == "__main__":
     # --- A1: Purchase Data Analysis
