@@ -6,7 +6,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score
 
 # Load CSV
-df = pd.read_csv("student_features_with_labels.csv")
+df = pd.read_csv(r"C:\VOLUME A\MachineLearningAssignments\MachineLearningAssignments\Lab08\student_features_with_labels.csv")
 
 # Drop non-feature columns
 X = df.drop(columns=["File Name", "Source_File", "Number", "Clarity"])
